@@ -1,0 +1,5 @@
+cd ./dist && composer archive create -t dir -n ../ && cd ..
+composer network install --card PeerAdmin@hlfv1 --archiveFile ./dist/land-registry@0.0.1.bna
+composer network start -n land-registry -V 0.0.1 -A admin -S adminpw -c PeerAdmin@hlfv1 -f networkAdminCard.card
+composer card import --file networkAdminCard.card
+composer network upgrade -c PeerAdmin@hlfv1 -n land-registry -V 0.0.3

@@ -1,0 +1,79 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Write your model definitions here
+ */
+
+namespace org.landreg.landregistry
+
+participant User identified by username {
+  o String username
+  o String firstName
+  o String lastName
+  o String email
+}
+
+asset Land identified by landId {
+  --> User owner
+  o String landId
+  o String coordinates
+  o String documents optional
+  o String partOf optional
+}
+
+asset LandDeptSellRequest  identified by requestId {
+  o String requestId
+  o String newOwner
+  o String landId
+  o Boolean approvedByMuncipality optional
+  o Boolean partSell optional
+  o String oldCoordinates optional
+  o String sellCoordinates optional
+  o String keepCoodinates optional
+  o String newLandId optional
+}
+asset MuncipalitySellRequest  identified by requestId {
+  o String requestId
+  o String newOwner
+  o String landId
+  o Boolean partSell optional
+  o String oldCoordinates optional
+  o String sellCoordinates optional
+  o String keepCoodinates optional
+  o String newLandId optional
+}
+
+// To be called by Muncipality
+transaction processLandDeptSellRequest {
+  o String requestId
+}
+// To be called by Highness
+transaction processMuncipalitySellRequest {
+  o String requestId
+  --> Land land
+  o String newOwner
+  o String prevOwner
+}
+// By Highness
+transaction SellLand {
+  --> Land land
+  o String newOwner
+}
+
+// event SampleEvent {
+//   --> SampleAsset asset
+//   o String oldValue
+//   o String newValue
+// }
